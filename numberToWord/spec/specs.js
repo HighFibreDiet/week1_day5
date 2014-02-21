@@ -23,8 +23,33 @@ describe('numberToWord', function() {
     numberToWord(15).should.equal("fifteen");
   });
 
-  it("returns the correct words for numbers between 101 and 999", function() {
+  it("returns the correct words for numbers between 120 and 199", function() {
     numberToWord(593).should.equal("five hundred ninety three");
+  });
+
+  it("returns the correct words for numbers between 110 and 120", function() {
+      numberToWord(113).should.equal("one hundred thirteen");
+  });
+
+  it("returns the correct words for numbers between 101 and 109", function() {
+      numberToWord(106).should.equal("one hundred six");
+  });
+
+
+  it("returns the correct words for numbers between 1000 and 999,999", function() {
+    numberToWord(82783).should.equal("eighty two thousand seven hundred eighty three");
+  });
+
+  it("returns the correct words for numbers between 1000000 and 999,999,999", function() {
+    numberToWord(353782783).should.equal("three hundred fifty three million seven hundred eighty two thousand seven hundred eighty three");
+  });
+
+  it("returns the correct words for numbers between 1000000000 and 999,999,999,999", function() {
+    numberToWord(113353782783).should.equal("one hundred thirteen billion three hundred fifty three million seven hundred eighty two thousand seven hundred eighty three");
+  });
+
+  it("returns the correct words for numbers between 1000000000000 and 999,999,999,999,999", function() {
+    numberToWord(645113353782783).should.equal("six hundred forty five trillion one hundred thirteen billion three hundred fifty three million seven hundred eighty two thousand seven hundred eighty three");
   });
 
 });
