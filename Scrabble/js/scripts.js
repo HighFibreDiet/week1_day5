@@ -1,44 +1,35 @@
-var factorize = function(number) {
-  var newNumber = number;
-  newNumber = Math.round(newNumber);
-  console.log(newNumber);
+var scrabbleScore = function(word) {
+  if((/\s/).test(word) || (/\d/).test(word) || (/\W/).test(word)) {
+    return "Please enter a single word with no digits or punctuation.";
+  };
+  var pointCounter = 0;
+  var wordLetters = word.toLowerCase().split("");
+  var twoPointLetters = ["d", "g"];
+  var threePointLetters = ["b", "c", "m", "p"];
+  var fourPointLetters = ["f", "h", "v", "w", "y"];
+  var fivePointLetters = ["k"];
+  var eightPointLetters = ["j", "x"];
+  var tenPointLetters = ["q", "z"];
 
-  if (newNumber > 0) {
-    for (var i = (newNumber-1); i > 1; i--) {
-      newNumber *= i;
-      console.log(newNumber);
+  wordLetters.forEach(function(wordLetter) {
+    if(twoPointLetters.indexOf(wordLetter) >= 0) {
+      pointCounter += 2;
+    } else if(threePointLetters.indexOf(wordLetter) >= 0) {
+      pointCounter += 3;
+    } else if(fourPointLetters.indexOf(wordLetter) >= 0) {
+      pointCounter += 4;
+    } else if(fivePointLetters.indexOf(wordLetter) >= 0) {
+      pointCounter += 5;
+    } else if(eightPointLetters.indexOf(wordLetter) >= 0) {
+      pointCounter += 8;
+    } else if(tenPointLetters.indexOf(wordLetter) >= 0) {
+      pointCounter += 10;
+    } else {
+      pointCounter += 1;
     }
-  }
-  else if (newNumber === 0){
-    newNumber = 1;
-  }
-  else {
-    alert("only positive integers please")
-    return false;
-  }
-  return newNumber;
+
+  });
+  return pointCounter;
 };
 
-/*var factorize = function(number) {
-  number = Math.round(number);
-  var total = 1;
-  if (isNaN(number)) {
-    alert("only positive integers please");
-    return false;
-  } else if (number === 0) {
-    return 1;
-  } else if (number > 1) {
-      total = factorize((number -1));
-    };
-  return (total*number);
-};*/
 
-$(document).ready(function() {
-  $("form#factorial").submit(function(event) {
-    var userInput = $("#input").val();
-    var userResult = factorize(userInput);
-    $('.outputArea').text(userResult);
-    $('#result').show();
-    event.preventDefault();
-  });
-});
