@@ -52,4 +52,8 @@ describe('numberToWord', function() {
     numberToWord(645113353782783).should.equal("six hundred forty five trillion one hundred thirteen billion three hundred fifty three million seven hundred eighty two thousand seven hundred eighty three");
   });
 
+  it("returns correct word for numbers ending in 000", function() {
+    numberToWord(2000000).should.equal("two million ");
+  });
+
 });

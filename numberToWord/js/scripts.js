@@ -3,49 +3,61 @@ var hundredsToWord = function(number) {
   var output = "";
   var length = number.toString().length;
 
-    if(number/100 % 1 === 0) {
+    if(number === 0) {
+       output += "";
+    } else if(number/100 % 1 === 0) {
     output += numberDictionary[Math.floor(number/100)] + " " + numberDictionary[100];
-  } else if(number/100 > 1) {
-    output += numberDictionary[Math.floor(number/100)] + " " + numberDictionary[100] + " " + hundredsToWord(number % 100);
-  } else if(number<100 && number > 20) {
-    output += numberDictionary[number - number%10] + " " + numberDictionary[number%10];
-  } else if(number > 10 && number < 20) {
-    output += numberDictionary[number];
-  } else if (number === 0) {
-    output += "";
-  } else {
-    output += numberDictionary[number];
-  }
+    } else if(number/100 > 1) {
+      output += numberDictionary[Math.floor(number/100)] + " " + numberDictionary[100] + " " + hundredsToWord(number % 100);
+    } else if(number<100 && number > 20) {
+      output += numberDictionary[number - number%10] + " " + numberDictionary[number%10];
+    } else if(number > 10 && number < 20) {
+      output += numberDictionary[number];
+    } else {
+      output += numberDictionary[number];
+    }
   return output;
 };
 
+
 var numberToWord = function(number) {
-  if (number === 0){
-    return "Zero";
-  } else if(number < 1000) {
-    return hundredsToWord(number);
-  } else if(number < 1000000) {
-    return (hundredsToWord(Math.floor(number/1000)) + " thousand " + hundredsToWord(number % 1000));
-  } else if(number < 1000000000) {
-    return (hundredsToWord(Math.floor(number/1000000)) + " million " + hundredsToWord(Math.floor((number % 1000000)/1000)) + " thousand " + hundredsToWord(number % 1000));
-  } else if(number < 1000000000000) {
-    return (hundredsToWord(Math.floor(number/1000000000)) + " billion " + hundredsToWord(Math.floor((number%1000000000)/1000000)) + " million " + hundredsToWord(Math.floor((number % 1000000)/1000)) + " thousand " + hundredsToWord(number % 1000));
-  } else if(number < 1000000000000000) {
-    return (hundredsToWord(Math.floor(number/1000000000000)) + " trillion " + hundredsToWord(Math.floor((number % 1000000000000)/1000000000)) + " billion " + hundredsToWord(Math.floor((number%1000000000)/1000000)) + " million " + hundredsToWord(Math.floor((number % 1000000)/1000)) + " thousand " + hundredsToWord(number % 1000));
-  }
-  return number;
+
+  if((/\s/).test(number) || (/\W/).test(number) || (/[A-z]/).test(number)) {
+    return "Please enter numbers only.";
+  };
+
+  var output = "";
+  var magnitudes = [1000000000000, 1000000000, 1000000, 1000, 1];
+  var magnitudeNames = [" trillion ", " billion ", " million ", " thousand ", ""];
+
+  if(number === 0) {
+    output = "zero";
+  } else if(number > 999999999999999) {
+    output = "infinity";  
+  } else {
+    magnitudes.forEach(function(magnitude, index) {
+      var hundredChunk = Math.floor((number % (magnitude*1000)/magnitude));
+      if(hundredChunk === 0) {
+          output += "";
+      } else if(number >= magnitude){
+        output += hundredsToWord(hundredChunk) + magnitudeNames[index];
+      } else {
+        return 0;
+      }
+    });
+  };
+  return output;
 };
 
-
-
 $(function() {
-  $("form#scrabble").submit(function(event) {
-     var wordToProcess = $("#input").val();
-     var points = scrabbleScore(wordToProcess);
-     $(".output").text(points);
-     $(".inputWord").text(wordToProcess);
-     $("#result").show();
-     event.preventDefault();
+  $("form#numberToWord").submit(function(event) {
+    var numberToProcess = $("#input").val();
+    var textOut = numberToWord(numberToProcess);
+
+    $(".output").text(textOut);
+    $(".inputNumber").text(numberToProcess);
+    $("#result").show();
+    event.preventDefault();
   });
 });
 
