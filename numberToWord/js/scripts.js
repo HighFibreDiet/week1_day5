@@ -3,15 +3,15 @@ var hundredsToWord = function(number) {
   var output = "";
   var length = number.toString().length;
 
-    if(number === 0) {
+    if (number === 0) {
        output += "";
-    } else if(number/100 % 1 === 0) {
-    output += numberDictionary[Math.floor(number/100)] + " " + numberDictionary[100];
-    } else if(number/100 > 1) {
+    } else if (number/100 % 1 === 0) {
+      output += numberDictionary[Math.floor(number/100)] + " " + numberDictionary[100];
+    } else if (number/100 > 1) {
       output += numberDictionary[Math.floor(number/100)] + " " + numberDictionary[100] + " " + hundredsToWord(number % 100);
-    } else if(number<100 && number > 20) {
+    } else if (number<100 && number > 20) {
       output += numberDictionary[number - number%10] + " " + numberDictionary[number%10];
-    } else if(number > 10 && number < 20) {
+    } else if (number > 10 && number < 20) {
       output += numberDictionary[number];
     } else {
       output += numberDictionary[number];
@@ -28,10 +28,11 @@ var numberToWord = function(number) {
 
   var output = "";
   var magnitudes = [1000000000000, 1000000000, 1000000, 1000, 1];
-  var magnitudeNames = [" trillion ", " billion ", " million ", " thousand ", ""];
+  var magnitudeNames = ["<span class='huge'> trillion </span>" , "<span class='biggest'> billion </span>", "<span class='bigger'> million </span>", "<span class='big'> thousand </span>", ""];
 
-  if(number === 0) {
+  if(number == 0) {
     output = "zero";
+    console.log(output);
   } else if(number > 999999999999999) {
     output = "infinity";  
   } else {
@@ -54,7 +55,8 @@ $(function() {
     var numberToProcess = $("#input").val();
     var textOut = numberToWord(numberToProcess);
 
-    $(".output").text(textOut);
+    $(".output").text("");
+    $(".output").append(textOut);
     $(".inputNumber").text(numberToProcess);
     $("#result").show();
     event.preventDefault();
